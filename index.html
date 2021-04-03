@@ -40,20 +40,19 @@
         <script>
             const doc = new jsPDF();
             var level = 1;
-            function selectLevel(level) {
-                if (level == 1) {
+            function selectLevel(leveAl) {
+                if (leveAl == 1) {
                     document.getElementById("level1").classList.remove('btn-danger');
                     document.getElementById("level1").classList.add('btn-success');
                     document.getElementById("level2").classList.remove('btn-success');
                     document.getElementById("level2").classList.add('btn-danger');
-                    level = 1;
                 } else {
                     document.getElementById("level2").classList.remove('btn-danger');
                     document.getElementById("level2").classList.add('btn-success');
                     document.getElementById("level1").classList.remove('btn-success');
                     document.getElementById("level1").classList.add('btn-danger');
-                    level = 2;
                 }
+                level = leveAl
             }
 
             function generatePDF() {
