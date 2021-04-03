@@ -14,9 +14,9 @@
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous"></script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="stylesheet" href="style.css">
     <title>Wakaquiz Print - Free Questions and Answers sheets for everyone</title>
 </head>
@@ -61,7 +61,7 @@
                 doc.text(80, 20, 'WakaQuiz')
             }
             function downloadPDF() {
-                doc.save
+                doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
             }
         </script>
     </div>
