@@ -39,14 +39,16 @@
         <a class="btn btn-danger btn-lg" id="setb" role="button" onclick="selectSet('b')">Set B</a>
         <br> <br>
         <h3>Choose how many questions there will be</h3>
-        <p>To fit on one page it would be best to use about 15-20.</p>
+        <p>There is a limit, though.</p>
         <input type="number" class="form-control" id="question-amount">
         <br> <br>
+        <p id="error"></p>
         <a class="btn btn-primary btn-lg" id="level2" role="button" onclick="genAndDownload()">Download PDF</a>
         <script>
-            const doc = new jsPDF();
+            var doc = new jsPDF();
             var level1seta, level1setb, level2seta, level2setb, questionjar = undefined;
             var set = 'a';
+            var error = false;
             $.getJSON("https://wakaquiz.com/quizzes/level1/questions-set-a.json", function (data) {
                 level1seta = data
             });
@@ -105,17 +107,32 @@
                 }
             }
             function generatePDF() {
+                doc = new jsPDF();
+                error = false;
+                document.getElementById('error').innerHTML = ""
+                if (isNaN(parseInt(document.getElementById('question-amount').value))) {
+                    error = true;
+                    document.getElementById('error').innerHTML = "Error: Characters not allowed have been found in your question amount. Please try again."
+                    return "error";
+                }
                 questionjar = getQuestions();
+                if (questionjar.length < parseInt(document.getElementById('question-amount').value)) {
+                    error = true;
+                    document.getElementById('error').innerHTML = "Error: Please have a question amount less than or equal to " + questionjar.length.toString() + "."
+                    return "error";
+                }
                 doc.setFontSize(20)
                 doc.text(120, 10, 'Level ' + level.toString())
                 doc.setFontSize(30)
                 doc.text(80, 20, 'WakaQuiz')
                 doc.setFontSize(12)
-                doc.text(35, 30, 'There will be ' + document.getElementById('question-amount').value + ' questions. Answer all the questions. Circle the answer')
+                doc.text(35, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
                 doc.text(35, 35, 'that you think is correct.')
             }
             function downloadPDF() {
-                doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
+                if (!error) {
+                    doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
+                }
             }
         </script>
     </div>
