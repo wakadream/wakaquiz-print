@@ -33,12 +33,32 @@
         <a class="btn btn-success btn-lg" id="level1" role="button" onclick="selectLevel(1)">Level 1</a>
         <a class="btn btn-danger btn-lg" id="level2" role="button" onclick="selectLevel(2)">Level 2</a>
         <br> <br>
+        <h3>Choose your Set</h3>
+        <p>Green means Selected, Red means Not Selected</p>
+        <a class="btn btn-success btn-lg" id="seta" role="button" onclick="selectSet('a')">Set A</a>
+        <a class="btn btn-danger btn-lg" id="setb" role="button" onclick="selectSet('b')">Set B</a>
+        <br> <br>
         <h3>Choose how many questions there will be</h3>
         <p>To fit on one page it would be best to use about 15-20.</p>
         <input type="number" class="form-control" id="question-amount">
         <br> <br>
+        <a class="btn btn-primary btn-lg" id="level2" role="button" onclick="genAndDownload()">Download PDF</a>
         <script>
             const doc = new jsPDF();
+            var level1seta, level1setb, level2seta, level2setb, questionjar = undefined;
+            var set = 'a';
+            $.getJSON("https://wakaquiz.com/quizzes/level1/questions-set-a.json", function (data) {
+                level1seta = data
+            });
+            $.getJSON("https://wakaquiz.com/quizzes/level1/questions-set-b.json", function (data) {
+                level1setb = data
+            });
+            $.getJSON("https://wakaquiz.com/quizzes/level2/questions-set-a.json", function (data) {
+                level2seta = data
+            });
+            $.getJSON("https://wakaquiz.com/quizzes/level2/questions-set-b.json", function (data) {
+                level2setb = data
+            });    
             var level = 1;
             function selectLevel(leveAl) {
                 if (leveAl == 1) {
@@ -54,10 +74,45 @@
                 }
                 level = leveAl
             }
-
+            function selectSet(s) {
+                if (s == 'a') {
+                    document.getElementById("seta").classList.remove('btn-danger');
+                    document.getElementById("seta").classList.add('btn-success');
+                    document.getElementById("setb").classList.remove('btn-success');
+                    document.getElementById("setb").classList.add('btn-danger');
+                } else {
+                    document.getElementById("setb").classList.remove('btn-danger');
+                    document.getElementById("setb").classList.add('btn-success');
+                    document.getElementById("seta").classList.remove('btn-success');
+                    document.getElementById("seta").classList.add('btn-danger');
+                }
+                set = s
+            }
+            function genAndDownload() { generatePDF(); downloadPDF(); };
+            function getQuestions() {
+                if (level == 1) {
+                    if (set == 'a') {
+                        return level1seta;
+                    } else {
+                        return level1setb;
+                    }
+                } else {
+                    if (set == 'a') {
+                        return level2seta;
+                    } else {
+                        return level2setb;
+                    }
+                }
+            }
             function generatePDF() {
+                questionjar = getQuestions();
+                doc.setFontSize(20)
+                doc.text(120, 10, 'Level ' + level.toString())
                 doc.setFontSize(30)
                 doc.text(80, 20, 'WakaQuiz')
+                doc.setFontSize(12)
+                doc.text(35, 30, 'There will be ' + document.getElementById('question-amount').value + ' questions. Answer all the questions. Circle the answer')
+                doc.text(35, 35, 'that you think is correct.')
             }
             function downloadPDF() {
                 doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
