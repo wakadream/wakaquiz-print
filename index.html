@@ -24,7 +24,7 @@
 <body>
     <div class="container">
         <br>
-        <h1 style="text-align: center;">Waka Kiwi Quiz</h1>
+        <a href="https://wakaquiz.com">&#60; Back to Wakaquiz</a><h1 style="text-align: center;">Waka Kiwi Quiz</h1>
         <h2 style="text-align: center;">Print</h2>
         <h1>WORK IN PROGRESS DO NOT USE YET UNLESS YOU WANT TO TEST</h1>
         <br>
@@ -44,7 +44,7 @@
         <br> <br>
         <p id="error"></p>
         <a class="btn btn-primary btn-lg" role="button" onclick="genAndDownload()">Download PDF</a>
-        <a class="btn btn-primary btn-lg" role="button" onclick="openPDFinTab()">Open PDF in New Tab</a>
+        <a class="btn btn-primary btn-lg" role="button" onclick="openPDFinBrowser()">Open PDF in Browser</a>
         <script>
             var doc = new jsPDF();
             var ylevel = 50;
@@ -163,7 +163,7 @@
                     doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
                 }
             }
-            function openPDFinTab() {
+            function openPDFinBrowser() {
                 generatePDF()
                 if (!error) {
                     doc.output('datauri');
