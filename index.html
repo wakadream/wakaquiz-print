@@ -46,8 +46,11 @@
         <a class="btn btn-primary btn-lg" id="level2" role="button" onclick="genAndDownload()">Download PDF</a>
         <script>
             var doc = new jsPDF();
-            var level1seta, level1setb, level2seta, level2setb, questionjar = undefined;
+            var ylevel = 50;
+            var questionsDone = 0;
+            var level1seta, level1setb, level2seta, level2setb, questionjar, tostringval, randomQuestion = undefined;
             var set = 'a';
+            var questionspicked = [];
             var error = false;
             $.getJSON("https://wakaquiz.com/quizzes/level1/questions-set-a.json", function (data) {
                 level1seta = data
@@ -60,7 +63,7 @@
             });
             $.getJSON("https://wakaquiz.com/quizzes/level2/questions-set-b.json", function (data) {
                 level2setb = data
-            });    
+            });
             var level = 1;
             function selectLevel(leveAl) {
                 if (leveAl == 1) {
@@ -106,6 +109,9 @@
                     }
                 }
             }
+            function random(min, max) {
+                return Math.floor((Math.random() * max) + min)
+            }
             function generatePDF() {
                 doc = new jsPDF();
                 error = false;
@@ -128,6 +134,12 @@
                 doc.setFontSize(12)
                 doc.text(35, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
                 doc.text(35, 35, 'that you think is correct.')
+                for (questionsDone = 0; questionsDone < parseInt(document.getElementById('question-amount').value); questionsDone++) {
+                    tostringval = questionsDone + 1
+                    randomQuestion = random(0, questionjar.length)
+                    doc.text(35, ylevel + questionsDone * 5, tostringval.toString() + ". " + questionjar[randomQuestion].question + " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
+                }
+
             }
             function downloadPDF() {
                 if (!error) {
