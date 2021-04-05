@@ -43,7 +43,8 @@
         <input type="number" class="form-control" id="question-amount">
         <br> <br>
         <p id="error"></p>
-        <a class="btn btn-primary btn-lg" id="level2" role="button" onclick="genAndDownload()">Download PDF</a>
+        <a class="btn btn-primary btn-lg" role="button" onclick="genAndDownload()">Download PDF</a>
+        <a class="btn btn-primary btn-lg" role="button" onclick="openPDFinTab()">Open PDF in New Tab</a>
         <script>
             var doc = new jsPDF();
             var ylevel = 50;
@@ -134,27 +135,38 @@
                 doc.setFontSize(30)
                 doc.text(80, 20, 'WakaQuiz')
                 doc.setFontSize(12)
-                doc.text(15, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
-                doc.text(15, 35, 'that you think is correct.')
-                doc.setFontSize(8)
+                doc.text(15, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Clearly mark the')
+                doc.text(15, 35, 'answer that you think is correct.')
+                doc.setFontSize(9)
                 for (questionsDone = 0; questionsDone < parseInt(document.getElementById('question-amount').value); questionsDone++) {
                     tostringval = questionsDone + 1
-                    help+=10
+                    help+=15
                     randomQuestion = random(0, questionjar.length)
 
                     while (questionspicked.includes(randomQuestion)) {
                         randomQuestion = random(0, questionjar.length)
                     }
+                    if (ylevel + help + 10 > 285) {
+                        help = -25;
+                        doc.addPage()
+                    }
                     console.log(ylevel + help + 5)
                     questionspicked.push(randomQuestion);
                     doc.text(15, ylevel + help, tostringval.toString() + ". " + questionjar[randomQuestion].question)
-                    doc.text(15, ylevel + help + 5, " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
+                    doc.text(15, ylevel + help + 5, " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", ")
+                    doc.text(15, ylevel + help + 10, questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
                 }
 
             }
             function downloadPDF() {
                 if (!error) {
                     doc.save("level" + level.toString() + "-wakaquiz-print.pdf")
+                }
+            }
+            function openPDFinTab() {
+                generatePDF()
+                if (!error) {
+                    doc.output('datauri');
                 }
             }
         </script>
