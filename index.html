@@ -48,7 +48,7 @@
             var doc = new jsPDF();
             var ylevel = 50;
             var questionsDone = 0;
-            var level1seta, level1setb, level2seta, level2setb, questionjar, tostringval, randomQuestion = undefined;
+            var level1seta, level1setb, level2seta, level2setb, questionjar, tostringval, randomQuestion, help = undefined;
             var set = 'a';
             var questionspicked = [];
             var error = false;
@@ -115,6 +115,8 @@
             function generatePDF() {
                 doc = new jsPDF();
                 error = false;
+                help = 0;
+                questionspicked = []
                 document.getElementById('error').innerHTML = ""
                 if (isNaN(parseInt(document.getElementById('question-amount').value))) {
                     error = true;
@@ -134,10 +136,19 @@
                 doc.setFontSize(12)
                 doc.text(15, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
                 doc.text(15, 35, 'that you think is correct.')
+                doc.setFontSize(8)
                 for (questionsDone = 0; questionsDone < parseInt(document.getElementById('question-amount').value); questionsDone++) {
                     tostringval = questionsDone + 1
+                    help+=10
                     randomQuestion = random(0, questionjar.length)
-                    doc.text(15, ylevel + questionsDone * 5, tostringval.toString() + ". " + questionjar[randomQuestion].question + " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
+
+                    while (questionspicked.includes(randomQuestion)) {
+                        randomQuestion = random(0, questionjar.length)
+                    }
+                    console.log(ylevel + help + 5)
+                    questionspicked.push(randomQuestion);
+                    doc.text(15, ylevel + help, tostringval.toString() + ". " + questionjar[randomQuestion].question)
+                    doc.text(15, ylevel + help + 5, " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
                 }
 
             }
