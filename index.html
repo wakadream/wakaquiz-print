@@ -132,12 +132,12 @@
                 doc.setFontSize(30)
                 doc.text(80, 20, 'WakaQuiz')
                 doc.setFontSize(12)
-                doc.text(35, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
-                doc.text(35, 35, 'that you think is correct.')
+                doc.text(15, 30, 'There will be ' + parseInt(document.getElementById('question-amount').value) + ' questions. Answer all the questions. Circle the answer')
+                doc.text(15, 35, 'that you think is correct.')
                 for (questionsDone = 0; questionsDone < parseInt(document.getElementById('question-amount').value); questionsDone++) {
                     tostringval = questionsDone + 1
                     randomQuestion = random(0, questionjar.length)
-                    doc.text(35, ylevel + questionsDone * 5, tostringval.toString() + ". " + questionjar[randomQuestion].question + " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
+                    doc.text(15, ylevel + questionsDone * 5, tostringval.toString() + ". " + questionjar[randomQuestion].question + " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", " + questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
                 }
 
             }
