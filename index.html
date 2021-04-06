@@ -47,7 +47,7 @@
         <a class="btn btn-primary btn-lg" role="button" onclick="openPDFinBrowser()">Open PDF in Browser</a>
         <script>
             var doc = new jsPDF();
-            var ylevel = 50;
+            var ylevel = 25;
             var questionsDone = 0;
             var level1seta, level1setb, level2seta, level2setb, questionjar, tostringval, randomQuestion, help = undefined;
             var set = 'a';
@@ -140,21 +140,22 @@
                 doc.setFontSize(9)
                 for (questionsDone = 0; questionsDone < parseInt(document.getElementById('question-amount').value); questionsDone++) {
                     tostringval = questionsDone + 1
-                    help+=15
+                    help+=25
                     randomQuestion = random(0, questionjar.length)
 
                     while (questionspicked.includes(randomQuestion)) {
                         randomQuestion = random(0, questionjar.length)
                     }
-                    if (ylevel + help + 10 > 285) {
-                        help = -25;
+                    if (ylevel + help + 20 > 285) {
+                        help = -10;
                         doc.addPage()
                     }
-                    console.log(ylevel + help + 5)
                     questionspicked.push(randomQuestion);
                     doc.text(15, ylevel + help, tostringval.toString() + ". " + questionjar[randomQuestion].question)
-                    doc.text(15, ylevel + help + 5, " (" + questionjar[randomQuestion].answer1 + ", " + questionjar[randomQuestion].answer2 + ", ")
-                    doc.text(15, ylevel + help + 10, questionjar[randomQuestion].answer3 + ", " + questionjar[randomQuestion].answer4 + ")")
+                    doc.text(20, ylevel + help + 5, "A: " + questionjar[randomQuestion]['answer1'] + ", ")
+                    doc.text(20, ylevel + help + 10, "B: " + questionjar[randomQuestion]['answer2'] + ", ")
+                    doc.text(20, ylevel + help + 15, "C: " + questionjar[randomQuestion]['answer3'] + ", ")
+                    doc.text(20, ylevel + help + 20, "D: " + questionjar[randomQuestion]['answer4'])
                 }
 
             }
